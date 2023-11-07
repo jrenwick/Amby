@@ -7,14 +7,17 @@ FROM DIM_SHOW, LATERAL flatten(input => split("CAST", ','))
 GROUP BY FIRST_NAME;
 
 --Which Movie had the longest timespan from release to appearing on Netflix?
+-- Assuming 'Release year' was first day of the year, movie name sorted ascending
 CREATE OR REPLACE VIEW TOP_LONGEST_RUN_FROM_RELEASE AS
 SELECT TOP 5
+    SHOW_ID,
+    TITLE,
     DATE_ADDED,
     to_date(RELEASE_YEAR::varchar, 'YYYY') AS RELEASE_DATE,
     datediff(DAY, RELEASE_DATE, DATE_ADDED) AS DIFF
 FROM DIM_SHOW
-WHERE DATE_ADDED IS NOT null AND RELEASE_DATE IS NOT null AND "TYPE" = 'Movie'
-ORDER BY DIFF DESC;
+WHERE DATE_ADDED IS NOT null AND RELEASE_DATE IS NOT null AND TYPE = 'Movie'
+ORDER BY DIFF DESC, TITLE ASC;
 
 --Which Month of the year had the most new releases historically?
 CREATE OR REPLACE VIEW TOP_MOST_ADDED_MONTH AS
