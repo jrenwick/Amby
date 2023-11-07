@@ -13,7 +13,7 @@ SELECT TOP 5
     to_date(RELEASE_YEAR::varchar, 'YYYY') AS RELEASE_DATE,
     datediff(DAY, RELEASE_DATE, DATE_ADDED) AS DIFF
 FROM DIM_SHOW
-WHERE DATE_ADDED IS NOT null AND RELEASE_DATE IS NOT null
+WHERE DATE_ADDED IS NOT null AND RELEASE_DATE IS NOT null AND "TYPE" = 'Movie'
 ORDER BY DIFF DESC;
 
 --Which Month of the year had the most new releases historically?
