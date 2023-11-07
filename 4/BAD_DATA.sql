@@ -1,0 +1,29 @@
+CREATE OR REPLACE VIEW BAD_DATA AS
+WITH BAD_DATA AS (
+    SELECT
+        *,
+        'No Director' AS REASON
+    FROM DIM_SHOW WHERE DIRECTOR IS NULL
+    UNION ALL
+    SELECT
+        *,
+        'added before release' AS REASON
+    FROM DIM_SHOW
+    WHERE YEAR(DATE_ADDED) < RELEASE_YEAR
+    UNION ALL
+    SELECT
+        *,
+        'No Cast' AS REASON
+    FROM DIM_SHOW WHERE "CAST" IS NULL
+    UNION ALL
+    SELECT
+        *,
+        'No Country' AS REASON
+    FROM DIM_SHOW WHERE COUNTRY IS NULL
+)
+
+SELECT
+    * EXCLUDE REASON,
+    LISTAGG(REASON, ', ') AS REASON
+FROM BAD_DATA
+GROUP BY ALL
