@@ -16,6 +16,7 @@ CREATE OR REPLACE TABLE NETFLIX (
     CONSTRAINT PK_SHOW_ID PRIMARY KEY (SHOW_ID)
 );
 
+-- modelling technique - OBT (One Big Table) - good for column storage data warehouses
 CREATE OR REPLACE TABLE DIM_SHOW (
     SHOW_ID VARCHAR,
     "TYPE" VARCHAR,
