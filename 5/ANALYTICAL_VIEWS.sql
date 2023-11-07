@@ -68,6 +68,7 @@ ORDER BY YOY_INCREASE_PERCENT DESC;
 
 -- List the actresses that have appeared in a movie with Woody Harrelson more than once.
 -- Not assuming the gender of the cast members, these are the actors/actresses whom have appeared with woody harrelson more than once
+-- The description also states that the 'CAST' field only contains actors involved in the movie/show
 CREATE OR REPLACE VIEW TOP_WOODY_HARRELSON AS
 SELECT
     trim(VALUE::varchar) AS ACT,

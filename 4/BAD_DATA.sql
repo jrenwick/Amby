@@ -2,8 +2,8 @@ CREATE OR REPLACE VIEW BAD_DATA AS
 WITH BAD_DATA AS (
     SELECT
         *,
-        'No Director' AS REASON
-    FROM DIM_SHOW WHERE DIRECTOR IS NULL
+        'Movie with No Director' AS REASON
+    FROM DIM_SHOW WHERE DIRECTOR IS NULL AND "TYPE" = 'Movie'
     UNION ALL
     SELECT
         *,
