@@ -16,6 +16,25 @@ CREATE OR REPLACE TABLE NETFLIX (
     CONSTRAINT PK_SHOW_ID PRIMARY KEY (SHOW_ID)
 );
 
+CREATE OR REPLACE DYNAMIC TABLE DIM_SHOW
+TARGET_LAG = '1 minute'
+WAREHOUSE = COMPUTE
+AS
+    SELECT
+        SHOW_ID id
+        ,"TYPE"
+        ,TITLE
+        ,DIRECTOR
+        ,"CAST"
+        ,COUNTRY
+        ,DATA_ADDED
+        ,RELEASE_YEAR
+        ,RATING
+        ,DURATION
+        ,LISTED_IN
+        ,DESCRIPTION
+FROM JASON.RAW.NETFLIX;
+
 -- I dont think we should cluster this table as it is small.
 -- I think the clustering should be done by ordering the data on insert.
 ALTER TABLE JASON.RAW.NETFLIX CLUSTER BY ("TYPE");
