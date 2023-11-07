@@ -65,3 +65,15 @@ WHERE
     DATES.YR >= (SELECT min(YR) FROM ADDED)
     AND DATES.YR <= (SELECT max(YR) FROM ADDED)
 ORDER BY YOY_INCREASE_PERCENT DESC;
+
+-- List the actresses that have appeared in a movie with Woody Harrelson more than once.
+-- Not assuming the gender of the cast members, these are the actors/actresses whom have appeared with woody harrelson more than once
+CREATE OR REPLACE VIEW TOP_WOODY_HARRELSON AS
+SELECT
+    trim(VALUE::varchar) AS ACT,
+    count(*) AS APPEARANCE
+FROM DIM_SHOW, LATERAL flatten(input => split("CAST", ','))
+WHERE "CAST" LIKE '%Woody Harrelson%' AND ACT != 'Woody Harrelson'
+GROUP BY ACT
+HAVING APPEARANCE > 1
+ORDER BY APPEARANCE DESC;
